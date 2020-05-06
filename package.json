@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rodrigo-sntg/video-robot/issues"
   },
-  "homepage": "https://github.com/rodrigo-sntg/video-robot#readme"
+  "homepage": "https://github.com/rodrigo-sntg/video-robot#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }
