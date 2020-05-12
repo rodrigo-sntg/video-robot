@@ -9,6 +9,8 @@ function robot(){
     
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
+    content.renderType = askAndReturnRenderType()
+
     state.save(content)
     
     function askAndReturnSearchTerm() {
@@ -21,7 +23,15 @@ function robot(){
         const selectedPrefixText = prefixes[selectedPrefixIndex]
         return selectedPrefixText
     }
+
+    function askAndReturnRenderType() {
+        const prefixes = ['Kdenlive','FFMPEG','After Effects']
+        const selectedPrefixIndex = readline.keyInSelect(prefixes, 'Choose video rendering type: ')
+        const selectedPrefixText = prefixes[selectedPrefixIndex]
+        return selectedPrefixText
+    }
 }
+
 
 
 module.exports = robot

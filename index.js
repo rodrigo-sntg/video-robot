@@ -6,14 +6,14 @@ const robots = {
     image: require('./robots/image.js'),
     video: require('./robots/video.js'),
     videoFFmpeg: require('./robots/video-ffmpeg'),
+    videoKdenlive: require('./robots/video-kdenlive'),
 }
 
 async function start() {
     // robots.input()
     // await robots.text()
     // await robots.image()
-    // await robots.video()
-    await robots.videoFFmpeg()
+    await robots.video()
 
     const content = robots.state.load()
     console.dir(content, { depth: null })

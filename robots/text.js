@@ -1,9 +1,15 @@
 const algorithmia = require('algorithmia')
+const lexrank = require('lexrank.js')
 const algorithmiaApiKey = require('../credentials/algorithmia.json').apiKey
+const algorithmiaLang = require('../credentials/algorithmia.json').lang
 const sentenceBoundaryDetection = require(`sbd`)
-
+const base64 = require('base-64');
 const watsonApiKey = require('../credentials/watson-nlu.json').apikey
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js')
+
+const gotitaiApiKey = require('../credentials/gotitai.json').apiKeyBase64
+const user = require('../credentials/gotitai.json').user
+const passwd = require('../credentials/gotitai.json').passwd
 
 
 const nlu = new NaturalLanguageUnderstandingV1({
@@ -19,8 +25,11 @@ async function robot() {
     await fetchContentFromWiki(content)
     sanitizeContent(content)
     breakContentIntoSentences(content)
+    // await breakContentIntoLexicalRankedSentences(content)
     limitMaximumSentences(content)
     await fetchKeywordsOfAllSentences(content)
+
+    await fetchGotItAi(content)
 
     state.save(content)
 
@@ -28,10 +37,17 @@ async function robot() {
     async function fetchContentFromWiki(content){
         const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey)
         const wikipediaAlgo = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
-        const wikipediaResponse = await wikipediaAlgo.pipe(content.searchTerm)
+        // const wikipediaResponse = await wikipediaAlgo.pipe(content.searchTerm)
+        var term = {
+          "articleName": content.searchTerm,
+          "lang": algorithmiaLang
+        }
+        const wikipediaResponse = await wikipediaAlgo.pipe(term)
+
         const wikipediaContent = wikipediaResponse.get()
         
         content.sourceContentOriginal = wikipediaContent
+        
     }
 
     function sanitizeContent(content){
@@ -80,7 +96,7 @@ async function robot() {
         console.log('> [text-robot] Starting to fetch keywords from Watson')
         const listOfKeywordsToFetch = []
         for (const sentence of content.sentences) {
-            sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text)
+            sentence.keywords = await fetchWatsonAndReturnKeywords(sentence)
             listOfKeywordsToFetch.push(
               fetchWatsonAndReturnKeywords(sentence)
             )
@@ -88,16 +104,6 @@ async function robot() {
       
         await Promise.all(listOfKeywordsToFetch)
 
-        // old
-        // for (const sentence of content.sentences) {
-        //     if(sentence){
-        //         console.log(`> [text-robot] Sentence: "${sentence.text}"`)
-          
-        //         sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text)
-        //         if(sentence.keywords)
-        //             console.log(`> [text-robot] Keywords: ${sentence.keywords.join(', ')}\n`)
-        //     }
-        // }
       }
 
     async function fetchWatsonAndReturnKeywords(sentence) {
@@ -122,6 +128,66 @@ async function robot() {
             resolve(keywords)
           })
         })
+      }
+
+      async function breakContentIntoLexicalRankedSentences(content) {
+        content.sentences = []
+
+        lexrank(content.sourceContentSanitized, (err, result) => {
+          if (err) {
+            throw error
+          }
+
+          sentences = result[0].sort(function(a,b){return b.weight.average - a.weight.average})
+          
+          sentences.forEach((sentence) => {
+            content.sentences.push({
+              text: sentence.text,
+              keywords: [],
+              images: []
+            })
+          })
+        })
+      }
+
+      async function fetchGotItAi(content) {
+        var body =  {   'T': content.sourceContentOriginal.content, 'EM': true , 'SL':'PtBr', "S": true};
+        const fetch = require("node-fetch")
+        const url = "https://api.gotit.ai/NLU/Analyze"
+        console.log('> [text-robot] Getting feeling from GotIt.Ai')
+        const getData = async url => {
+          try {
+            const response = await fetch(url, {
+              'method': 'post',
+              'body':	JSON.stringify(body),
+              'headers': {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${base64.encode(`${user}:${passwd}`)}`
+                }	 
+            })
+            const json = await response.json()
+            let arr = Object.values(json.emotions);
+            let max = Math.max(...arr);
+            if(json.emotions.sadness == max) {
+              content.feeling = "sadness"
+            } else if(json.emotions.joy == max) {
+              content.feeling = "sadness"
+            } else if(json.emotions.fear == max) {
+              content.feeling = "sadness"
+            } else if(json.emotions.disgust == max) {
+              content.feeling = "sadness"
+            } else if(json.emotions.anger == max) {
+              content.feeling = "sadness"
+            } else {
+              content.feeling = "1"
+      
+            }
+            console.log(`> [text-robot] the feeling is ${content.feeling}: by GotIt.Ai`)
+          } catch (error) {
+            console.log(`> [text-robot] ${error}`)
+          }
+        };
+        await getData(url)
       }
 
 

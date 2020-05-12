@@ -22,7 +22,10 @@ async function robot(){
     
           if (sentenceIndex === 0) {
             query = `${content.searchTerm}`
-          } else {
+          } else if (content.sentences[sentenceIndex].keywords[0].indexOf(content.searchTerm) > 0 ){
+            query = `${content.sentences[sentenceIndex].keywords[0]}`
+          }
+          else {
             query = `${content.searchTerm} ${content.sentences[sentenceIndex].keywords[0]}`
           }
     
