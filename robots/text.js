@@ -20,6 +20,9 @@ const nlu = new NaturalLanguageUnderstandingV1({
 
 const state = require('./state.js')
 
+const wikiLanguages = {'Portuguese' : 'pt', 'English':'en'}
+const gotitLanguages = {'Portuguese' : 'PtBr', 'English':'EnUs'}
+
 async function robot() {
     const content = state.load()
     await fetchContentFromWiki(content)
@@ -40,7 +43,7 @@ async function robot() {
         // const wikipediaResponse = await wikipediaAlgo.pipe(content.searchTerm)
         var term = {
           "articleName": content.searchTerm,
-          "lang": algorithmiaLang
+          "lang": wikiLanguages[content.language]
         }
         const wikipediaResponse = await wikipediaAlgo.pipe(term)
 
@@ -57,6 +60,7 @@ async function robot() {
         content.sourceContentSanitized = withoutDatesInParenthesis
 
         function removeBlankLinesAndMarkdown(text){
+            text = text.replace(/['"]+/g, '')
             const allLines = text.split('\n')
 
             const withoutBlankLinesAndMarkdown = allLines.filter((line) => {
@@ -151,7 +155,7 @@ async function robot() {
       }
 
       async function fetchGotItAi(content) {
-        var body =  {   'T': content.sourceContentOriginal.content, 'EM': true , 'SL':'PtBr', "S": true};
+        var body =  {   'T': content.sentences[0].text, 'EM': true , 'SL': gotitLanguages[content.language] , "S": true};
         const fetch = require("node-fetch")
         const url = "https://api.gotit.ai/NLU/Analyze"
         console.log('> [text-robot] Getting feeling from GotIt.Ai')

@@ -20,15 +20,14 @@ ffmpeg.setFfprobePath(ffprobePath);
 async function robot(){
     const content = state.load()
 
-    // await convertAllImages(content)
-    // await createAllSentencesImages(content)
-    // await createYoutubeThumbnail();
-    // await createAfterEffectsScript(content)
+    await convertAllImages(content)
+    await createAllSentencesImages(content)
+    await createYoutubeThumbnail();
+    await createAfterEffectsScript(content)
     
-    // await renderVideo(content.renderType, content);
-    await renderVideo(undefined, content);
+    await renderVideo(content.renderType, content);
 
-    // state.save(content)
+    state.save(content)
 
     async function convertAllImages(content){
         for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
@@ -276,10 +275,11 @@ async function robot(){
     }
   
     async function renderVideo(type, content) {
-
+      type = type.toLowerCase();
+      
       if (type == "after") {
         await renderVideoWithAfterEffects();
-      } if(type == "Kdenlive") {
+      } if(type == "kdenlive") {
         await renderVideoWithKdenlive(content);
       }else {
         await renderVideoWithNode(content);

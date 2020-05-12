@@ -7,6 +7,7 @@ function robot(){
         maximumSentences: 7
     }
     
+    content.language = askAndReturnLanguage()
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
     content.renderType = askAndReturnRenderType()
@@ -15,6 +16,13 @@ function robot(){
     
     function askAndReturnSearchTerm() {
         return readline.question('Type a wikipedia search term: ')
+    }
+
+    function askAndReturnLanguage() {
+        const prefixes = ['English','Portuguese']
+        const selectedPrefixIndex = readline.keyInSelect(prefixes, 'Choose the language: ')
+        const selectedPrefixText = prefixes[selectedPrefixIndex]
+        return selectedPrefixText
     }
     
     function askAndReturnPrefix() {
