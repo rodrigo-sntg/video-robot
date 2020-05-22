@@ -5,15 +5,17 @@ const robots = {
     state: require('./robots/state.js'),
     image: require('./robots/image.js'),
     video: require('./robots/video.js'),
-    youtube: require('./robots/youtube.js')
+    audio: require('./robots/audio.js')
+    // youtube: require('./robots/youtube.js')
 }
 
 async function start() {
-    robots.input()
-    await robots.text()
-    await robots.image()
+    // robots.input()
+    // await robots.text()
+    // await robots.audio()
+    // await robots.image()
     await robots.video()
-    await robots.youtube()
+    // await robots.youtube()
 
     const content = robots.state.load()
     console.dir(content, { depth: null })

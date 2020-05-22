@@ -1,3 +1,8 @@
+fs = require('fs');
+const moment = require('moment')
+const parser = require('xml2json');
+
+const MLT = require('mlt');
 const gm = require('gm').subClass({imageMagick: true})
 var exec = require('child_process').exec, child;
 const state = require('./state.js')
@@ -17,17 +22,25 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath);
 
 
+
+
+
 async function robot(){
-    const content = state.load()
+    // const content = state.load()
+    mltTest();
+    // console.log(secondsToHms(10.5))
+    // console.log(getSumTimeString('00:00:12,312','00:00:00,650'))
+    // console.log(getDiffTimeString('00:00:12,312','00:00:01,120'))
 
-    await convertAllImages(content)
-    await createAllSentencesImages(content)
-    await createYoutubeThumbnail();
-    await createAfterEffectsScript(content)
+
+    // await convertAllImages(content)
+    // await createAllSentencesImages(content)
+    // await createYoutubeThumbnail();
+    // await createAfterEffectsScript(content)
     
-    await renderVideo(content.renderType, content);
+    // await renderVideo(content.renderType, content);
 
-    state.save(content)
+    // state.save(content)
 
     async function convertAllImages(content){
         for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
@@ -233,6 +246,9 @@ async function robot(){
           MarginV: "40"
         }
       };
+
+
+      
       const outputPath = fromRoot('./content/video.mp4')
       const audioPath = fromRoot('./templates/1/newsroom.mp3')
       videoshow(images, videoOptions)
@@ -250,7 +266,154 @@ async function robot(){
         });
     }
 
+    async function mltTest() {
+      // const mlt = new MLT; 
+      // music = new MLT.Producer.Audio({source: './content/0-audio-sentence.wav'});
+      // mlt.push(music);
+
+      const over = "00:00:01,120";
+      const trans = "00:00:00,560";
+
+     
+      const audio0 = "00:00:04,200";
+      const audio1 = "00:00:08,620";
+      const audio2 = "00:00:06,775";
+      const audio3 = "00:00:03,652";
+      const audio4 = "00:00:09,399";
+      const audio5 = "00:00:10,412";
+      const audio6 = "00:00:09,199";
+
+      // const converted0 = getSumTimeString(audio0, "00:00:05,000");
+      // const converted1 = "00:00:08,770";
+      // const converted2 = "00:00:06,925";
+      // const converted3 = "00:00:03,775";
+      // const converted4 = "00:00:09,549";
+      // const converted5 = "00:00:10,562";
+      // const converted6 = "00:00:09,349";
+
+      const converted0 = getSumTimeString(audio0, "00:00:05,000");
+      const converted1 = getSumTimeString(audio1, trans);
+      const converted2 = getSumTimeString(audio2, trans);
+      const converted3 = getSumTimeString(audio3, trans);
+      const converted4 = getSumTimeString(audio4, trans);
+      const converted5 = getSumTimeString(audio5, trans);
+      const converted6 = getSumTimeString(audio6, trans);
+      
+      const gap0 = getDiffTimeString(converted0, trans);
+      const gap1 = getDiffTimeString(converted1, over);
+      const gap2 = getDiffTimeString(converted2, over);
+      const gap3 = getDiffTimeString(converted3, over);
+      const gap4 = getDiffTimeString(converted4, over);
+      const gap5 = getDiffTimeString(converted5, over);
+      const gap6 = getDiffTimeString(converted6, over);
+
+      const transition0In = getDiffTimeString(converted0, trans);
+      const transition0Out = converted0;
+      const transition1In = getSumTimeString(transition0Out, gap1);
+      const transition1Out = getSumTimeString(transition1In, trans)
+      const transition2In = getSumTimeString(transition1Out, gap2);
+      const transition2Out = getSumTimeString(transition2In, trans);
+      const transition3In = getSumTimeString(transition2Out, gap3);
+      const transition3Out = getSumTimeString(transition3In, trans);
+      const transition4In = getSumTimeString(transition3Out, gap4);
+      const transition4Out = getSumTimeString(transition4In, trans);
+      const transition5In = getSumTimeString(transition4Out, gap5);
+      const transition5Out = getSumTimeString(transition5In, trans);
+      const transition6In = getSumTimeString(transition5Out, gap6);
+      const transition6Out = getSumTimeString(transition6In, gap6);
+
+
+
+      const fade0In = getTransitionIn(audio0);
+      const fade0Out = audio0;
+      const fade1In = getTransitionIn(audio1);
+      const fade1Out = audio1;
+      const fade2In = getTransitionIn(audio2);
+      const fade2Out = audio2;
+      const fade3In = getTransitionIn(audio3);
+      const fade3Out = audio3;
+      const fade4In = getTransitionIn(audio4);
+      const fade4Out = audio4;
+      const fade5In = getTransitionIn(audio5);
+      const fade5Out = audio5;
+      const fade6In = getTransitionIn(audio6);
+      const fade6Out = audio6;
+
+      fs.readFile( './templates/3/templateCorrected.mlt', 'utf-8', function(err, data) {
+        
+        // var json = parser.toJson(data);
+
+        const blank = 4;
+        const transitionLength = 0.750;
+
+        data = data.split('${0-gap}').join(gap0);
+        data = data.split('${1-gap}').join(gap1);
+        data = data.split('${2-gap}').join(gap2);
+        data = data.split('${3-gap}').join(gap3);
+        data = data.split('${4-gap}').join(gap4);
+        data = data.split('${5-gap}').join(gap5);
+        data = data.split('${6-gap}').join(gap6);
+
+        data = data.split('${0-audio}').join(audio0);
+        data = data.split('${1-audio}').join(audio1);
+        data = data.split('${2-audio}').join(audio2);
+        data = data.split('${3-audio}').join(audio3);
+        data = data.split('${4-audio}').join(audio4);
+        data = data.split('${5-audio}').join(audio5);
+        data = data.split('${6-audio}').join(audio6);
+
+        data = data.split('${0-converted}').join(converted0);
+        data = data.split('${1-converted}').join(converted1);
+        data = data.split('${2-converted}').join(converted2);
+        data = data.split('${3-converted}').join(converted3);
+        data = data.split('${4-converted}').join(converted4);
+        data = data.split('${5-converted}').join(converted5);
+        data = data.split('${6-converted}').join(converted6);
+
+        data = data.split('${fade-0-in}').join(fade0In);
+        data = data.split('${fade-0-out}').join(fade0Out);
+        data = data.split('${fade-1-in}').join(fade1In);
+        data = data.split('${fade-1-out}').join(fade1Out);
+        data = data.split('${fade-2-in}').join(fade2In);
+        data = data.split('${fade-2-out}').join(fade2Out);
+        data = data.split('${fade-3-in}').join(fade3In);
+        data = data.split('${fade-3-out}').join(fade3Out);
+        data = data.split('${fade-4-in}').join(fade4In);
+        data = data.split('${fade-4-out}').join(fade4Out);
+        data = data.split('${fade-5-in}').join(fade5In);
+        data = data.split('${fade-5-out}').join(fade5Out);
+        data = data.split('${fade-6-in}').join(fade6In);
+        data = data.split('${fade-6-out}').join(fade6Out);
+        
+        data = data.split('${transtion-0-in}').join(transition0In);
+        data = data.split('${transtion-0-out}').join(transition0Out);
+        data = data.split('${transtion-1-in}').join(transition1In);
+        data = data.split('${transtion-1-out}').join(transition1Out);
+        data = data.split('${transtion-2-in}').join(transition2In);
+        data = data.split('${transtion-2-out}').join(transition2Out);
+        data = data.split('${transtion-3-in}').join(transition3In);
+        data = data.split('${transtion-3-out}').join(transition3Out);
+        data = data.split('${transtion-4-in}').join(transition4In);
+        data = data.split('${transtion-4-out}').join(transition4Out);
+        data = data.split('${transtion-5-in}').join(transition5In);
+        data = data.split('${transtion-5-out}').join(transition5Out);
+        data = data.split('${transtion-6-in}').join(transition6In);
+        data = data.split('${transtion-6-out}').join(transition6Out);
+
+
+        fs.writeFileSync('./templates/3/novo.mlt', data)
+
+        // var obj = JSON.parse(json)
+        // console.log("to json ->", json);
+      });
+
+    }
+
     async function renderVideoWithKdenlive() {
+      const mlt = new MLT; 
+      music = new MLT.Producer.Audio({source: '/home/jeffrey/Downloads/crazy.mp3'});
+      mlt.push(music);
+
       return new Promise((resolve, reject) => {
         const systemPlatform=os.platform
         
@@ -285,5 +448,60 @@ async function robot(){
         await renderVideoWithNode(content);
       }
     }
+
+    function getTransitionIn(out){
+      let arr = out.split(':');
+      let number = Number(arr[2].replace(',','.'))
+
+      number -= 0.750;
+      var last = '';
+
+      if (number < 10) 
+        last = ("0"+number).replace('.',',')
+      
+      else
+        last = (number + '').replace('.',',')
+      
+      arr[2] = last;
+      
+      return arr.join(':')
+    }
+
+    function getSumTimeString(init, sum){
+
+      init = init.replace(',','.')
+      sum = sum.replace(',','.')
+      
+      const result = moment.duration(init).asSeconds() + moment.duration(sum).asSeconds()
+
+      return secondsToHms(result)
+    }
+
+    function getDiffTimeString(init, diff){
+
+      init = init.replace(',','.')
+      diff = diff.replace(',','.')
+      
+      const result = moment.duration(init).asSeconds() - moment.duration(diff).asSeconds()
+
+      return secondsToHms(result)
+    }
+
+    function secondsToHms(d) {
+      var hours   = Math.floor(d / 3600);
+      var minutes = Math.floor((d - (hours * 3600)) / 60);
+      var seconds = d - (hours * 3600) - (minutes * 60);
+
+      var rest = (d + '').split('.')[1]
+
+      if(!rest) 
+        rest = 000;
+
+        if (hours   < 10) {hours   = "0"+hours;}
+      if (minutes < 10) {minutes = "0"+minutes;}
+      if (seconds < 10) {seconds = "0"+seconds;}
+      return hours + ':' + minutes + ':' + (seconds + '').replace('.',',');
+      // return `${hours}:${minutes}:${seconds}.${rest}`
+  }
 }
 module.exports = robot
