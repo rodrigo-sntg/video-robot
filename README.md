@@ -110,7 +110,6 @@ To do so, just click on the top of the page "**Select Project**" and then click 
 ![image](https://user-images.githubusercontent.com/34013325/55571155-52e3d400-56db-11e9-998f-bd99ab647403.png)
 
 
-de um nome ao projeto e clique no botão **criar:**
 give it a name and click on the button **create:**
 
 ![image](https://user-images.githubusercontent.com/34013325/55571267-963e4280-56db-11e9-9b21-7f028caa05c1.png)
@@ -171,7 +170,7 @@ Back to the **google-search.json**, we have to create the a new property and pas
 
 ```
 {
-  "apiKey": "API_KEY_AQUI",
-  "searchEngineId": "ID_MECANISMO_DE_BUSCA"
+  "apiKey": "API_KEY_HERE",
+  "searchEngineId": "ID_SEARCH_ENGINE"
 }
 ```
