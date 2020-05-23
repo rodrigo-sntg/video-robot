@@ -68,7 +68,7 @@ In the left side's menu, look for **Service Credentials** and then **Auto-genera
 Then copy the *Credentials* like so:
 
 ![IBM](https://i.imgsafe.org/ba/bace46f16b.jpeg)
-*******************************
+
 Put the file again in **./credentials** on a file name `watson-nlu.json`, like this:
 ``` js
 {
@@ -94,63 +94,73 @@ Before creating the api's we are going to need, it's necessary link our google's
 
 ![google-cloud-pay](https://i.imgsafe.org/62/6253ce8142.jpeg)
 
-## Creating the project ## **************
+## Creating the project ##
 
-Agora é a hora de criarmos um projeto que iremos vincular as Api's que vamos utilizar, para isso basta clicar no menu do topo da página "**Selecionar projeto**" e depois em "**Novo Projeto**":
+Now it is time to create the project and link it to the api's.
+To do so, just click on the top of the page "**Select Project**" and then click in "**New Project**":
+
 
 ![image](https://user-images.githubusercontent.com/34013325/55571155-52e3d400-56db-11e9-998f-bd99ab647403.png)
 
+
 de um nome ao projeto e clique no botão **criar:**
+give it a name and click on the button **create:**
 
 ![image](https://user-images.githubusercontent.com/34013325/55571267-963e4280-56db-11e9-9b21-7f028caa05c1.png)
 
-após isso o projeto começará a ser criado e assim que terminar um menu vai aparecer com o projeto que acabamos de criar então você irá seleciona-lo:
+After that, the project will be created and after finished a menu will show with the project we just created and then, you must select it:
 
 ![image](https://user-images.githubusercontent.com/34013325/55571506-064cc880-56dc-11e9-804b-f14003dccc09.png)
 
 ## Api: Custom Search API ##
 
-Com o projeto criado agora é hora de habilitarmos e configurarmos a Api, você irá clicar no menu lateral esquerdo no topo navegar até **API's e Serviços** > **Bibliotecas**:
+With the project created, we have to activate and configure the API.
+Click on the left sit menu, navigate to **API's and Services** > **Library**:
+
 
 ![image](https://user-images.githubusercontent.com/34013325/55572521-22ea0000-56de-11e9-89cc-f477fe18bf65.png)
 
-no campo de pesquisa basta procurar por **Custom Search API**, clicar em **Ativar**, e aguardar até a ativação da api:
+On the searsh bar, type **Custom Search API**, and click on **Enable**.
+Wait the activation is finished.
 
 ![image](https://user-images.githubusercontent.com/34013325/55572661-78bea800-56de-11e9-9ae3-fbc87758aa84.png)
 
-Após a ativação vai aparecer uma mensagem solicitando a criação das credenciais da API, então basta você clicar em **Criar Credenciais**:
+After thea ctivation, you have to create the credentials by clicking in **Create credentials**:
 
 ![image](https://user-images.githubusercontent.com/34013325/55572835-eb2f8800-56de-11e9-8292-fc3c4bf74084.png)
 
-Procure por **Custom Search API** no dropdown e clique em "**Preciso de quais credenciais?**"
+Search for **Custom Search API** on the dropdown and click in "**What credentials do I need?**"
 
 ![image](https://user-images.githubusercontent.com/34013325/55572958-2cc03300-56df-11e9-8bc1-17641ba5138e.png)
 
-Após isso irá aparecer sua Api Key, você vai copia-la e clicar no botão concluir, voltando a pasta do projeto você vai navegar até **video-maker/credentials** e irá criar um novo arquivo chamado **google-search.json** com o conteúdo abaixo:
+The you'll have your API KEY. Copy it and click on finish.
+Go back to the project, on the **video-maker/credentials** folder and make a file called **google-search.json** like the example bellow:
 
 ```
 {
-  "apiKey": "API_KEY_AQUI"
+  "apiKey": "API_KEY_HERE"
 }
 ```
 
-## Api: Custom Search Enginer ##
-Agora iremos configurar o nosso motor de busca personalizado do google, para isso você vai acessar o [Custom Search Engine](https://cse.google.com/cse/create/new), e irá informar o **site a pesquisar** coloque **google.com**, ire selecionar o idioma que preferir *no vídeo o Filipe deixa Inglês então aconselho deixar em inglês*, e por fim clique em **Opções avançadas** e para o esquema iremos utilizar o mais genérico **Thing**, pronto tudo preenchido você irá clicar em **criar**:
 
-> PS.: Para saber mais sobre o schema que o Filipe cita no vídeo acesse [schema.org](https://schema.org/docs/full.html)
+## Api: Custom Search Enginer ##
+Now we have to configure the customized search engine. To do that, access [Custom Search Engine](https://cse.google.com/cse/create/new), and you'll have to inform the **search site** put **google.com**, and select the language.
+Then click in **Advanced Options** and put the more generic schema **Thing**.
+We are ready to go. Just click in **Create**:
+
+
+> PS.: You can get more information about the schema here [schema.org](https://schema.org/docs/full.html)
 
 ![image](https://user-images.githubusercontent.com/34013325/55578410-38662680-56ec-11e9-80ea-06ff9e25ba3f.png)
 
-
-Agora basta clicar em **Painel de Controle** na nova tela nós iremos habilitar a opção **Pesquisa de imagens** e depois iremos clicar no botão **Copiar para área de transferência**"
+Go to the **Control Panel** on the new screen and enable the option **Image Query**, then click on **Copy to clipboard**
 
 ![image](https://user-images.githubusercontent.com/34013325/55574756-8a567e80-56e3-11e9-99ea-d307547c781f.png)
 
-> Ps.: Existem diversas opções que eu aconselho futuramente você testar e descobrir o que cada uma dela faz 😋 
 
 ![image](https://user-images.githubusercontent.com/34013325/55574920-0355d600-56e4-11e9-8f36-822a62224fab.png)
 
-Voltando no arquivo **google-search.json** iremos criar uma nova propriedade e iremos colar o código identificador do mecanismo de busca que criamos, identificado por `searchEngineId`, no final irá ficar assim:
+Back to the **google-search.json**, we have to create the a new property and paste the code copied before, with the id `searchEngineId`:
 
 ```
 {
@@ -158,38 +168,3 @@ Voltando no arquivo **google-search.json** iremos criar uma nova propriedade e i
   "searchEngineId": "ID_MECANISMO_DE_BUSCA"
 }
 ```
-
-## Api: YouTube ##
-
-Chegou a hora de configurarmos a api do youtube!, como fizemos na api custom search iremos fazer o mesmo com a api do YoutTube, então basta acessar o [Google Cloud](https://cloud.google.com/) e habilitar o serviço do YouTube, clicando no menu Lateral **Apis e Serviços -> Biblioteca**, na caixa de pesquisa procure por **YouTube**, e click no botão Ativar: 
-
-![ezgif-5-fa13fd3c8407](https://user-images.githubusercontent.com/34013325/57034414-d08cf800-6c25-11e9-9867-03024a30028a.gif)
-
-> Ps. No vídeo o Filipe orienta a criar um novo projeto para adicionar a api do Youtube, porem aqui, estou usando o mesmo projeto que criei para o video-maker, mas caso queria criar um novo projeto basta seguir os passos de **Criando o Projeto** que está no começo desse guia!
-
-Agora clique na guia **Tela de consentimento OAuth** 
-![image](https://user-images.githubusercontent.com/34013325/57034753-c0294d00-6c26-11e9-8ee9-ff5e12ea6470.png)
-
-Em seguida preencha apenas o campo "nome do aplicativo", futuramente você pode voltar aqui para personalizar com as outras informações caso desejar:
-
-![image](https://user-images.githubusercontent.com/34013325/57034907-1d250300-6c27-11e9-8c9f-e2e0d4e95b95.png)
-
-Clique no dropdown **Criar credenciais** e escolha **ID do Cliente OAuth**:
-![image](https://user-images.githubusercontent.com/34013325/57035299-1054df00-6c28-11e9-9a04-a4cef439e41e.png)
-
-Aqui não tem muito segredo, escolha **Aplicativo da Web** para o **Tipo de Aplicativo**, escolha um **nome do aplicativo**, no primeiro campo insira o endereço **http://localhost:5000** e no segundo **http://localhost:5000/oauth2callback** e clique no botão criar:
-
-![image](https://user-images.githubusercontent.com/34013325/57035477-85281900-6c28-11e9-829a-1c0c074bc478.png)
-
-Após ser criada, irá aparecer uma janela com as credenciais, você pode dar ok, pois iremos baixar as credencias como na tela abaixo:
-
-![image](https://user-images.githubusercontent.com/34013325/57036076-aa695700-6c29-11e9-8c4d-fc78fecdae46.png)
-
-renomeio o arquivo para **google-youtube.json** e salve dentro da pasta **video-maker/credentials** 😄
-
-## 1.., 2..., 3... Testando! ##
-Agora dentro da pasta **video-maker** você pode abrir o **cmd** ou **powershell** e executar o comando:
-```
-node index.js
-```
-![ezgif-5-a906cfcd3fd1](https://user-images.githubusercontent.com/34013325/57246263-33f69b80-7013-11e9-97a1-2f84acf2a7fe.gif)
