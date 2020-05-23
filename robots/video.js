@@ -283,7 +283,7 @@ async function robot(){
       const fadeObject = fillFadeObject(imageLengthObject);
 
 
-      fs.readFile( './templates/3/newTry.mlt', 'utf-8', function(err, data) {
+      fs.readFile( './templates/3/kdenlive_template.mlt', 'utf-8', function(err, data) {
         
         // var json = parser.toJson(data);
 
@@ -300,7 +300,7 @@ async function robot(){
         data = replaceTransitions(data, transitionObject);
 
 
-        fs.writeFileSync('./templates/3/final2.mlt', data)
+        fs.writeFileSync('./templates/3/final.mlt', data)
 
       });
 
@@ -526,14 +526,11 @@ async function robot(){
   }
 
     async function renderVideoWithKdenlive() {
-      const mlt = new MLT; 
-      music = new MLT.Producer.Audio({source: '/home/jeffrey/Downloads/crazy.mp3'});
-      mlt.push(music);
 
       return new Promise((resolve, reject) => {
         const systemPlatform=os.platform
         
-        const templateFilePath = fromRoot('./templates/3/final2.mlt')
+        const templateFilePath = fromRoot('./templates/3/final.mlt')
 
         if (systemPlatform=='linux'){
           console.log('> [video-robot] Rendering kdenlive')
