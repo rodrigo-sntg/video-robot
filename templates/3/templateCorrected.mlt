@@ -100,8 +100,8 @@
   <property name="meta.media.width">1920</property>
   <property name="meta.media.height">1080</property>
  </producer>
- <producer id="producer-0-converted" in="00:00:00,000" out="00:00:09,800">
-  <property name="length">00:00:09,840</property>
+ <producer id="producer-0-converted" in="00:00:00,000" out="${0-converted}">
+  <property name="length">${0-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/0-converted.png</property>
   <property name="ttl">25</property>
@@ -119,8 +119,8 @@
   <property name="kdenlive:file_hash">e9afc2996b19dd06037eaf1230211f2c</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-2-converted" in="00:00:00,000" out="00:00:07,880">
-  <property name="length">198</property>
+ <producer id="producer-2-converted" in="00:00:00,000" out="${2-converted}">
+  <property name="length">${2-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/2-converted.png</property>
   <property name="ttl">25</property>
@@ -138,8 +138,8 @@
   <property name="kdenlive:file_hash">d9feb90f515ccc1fbbe1ec50ab890e1f</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-1-converted" in="00:00:00,000" out="00:00:09,880">
-  <property name="length">248</property>
+ <producer id="producer-1-converted" in="00:00:00,000" out="${1-converted}">
+  <property name="length">${1-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/1-converted.png</property>
   <property name="ttl">25</property>
@@ -157,8 +157,8 @@
   <property name="kdenlive:file_hash">0fa56762a3a796fa6c2dceac237cf6ca</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-4-converted" in="00:00:00,000" out="00:00:10,480">
-  <property name="length">263</property>
+ <producer id="producer-4-converted" in="00:00:00,000" out="${4-converted}">
+  <property name="length">${4-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/4-converted.png</property>
   <property name="ttl">25</property>
@@ -176,8 +176,8 @@
   <property name="kdenlive:file_hash">d24c19758e0f5b401ca22ab8374bc3a7</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-3-converted" in="00:00:00,000" out="00:00:07,320">
-  <property name="length">00:00:07,360</property>
+ <producer id="producer-3-converted" in="00:00:00,000" out="${3-converted}">
+  <property name="length">${3-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/3-converted.png</property>
   <property name="ttl">25</property>
@@ -195,8 +195,8 @@
   <property name="kdenlive:file_hash">ddff4f3e690e0b639dfc73ab9dae356c</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-6-converted" in="00:00:00,000" out="00:00:10,120">
-  <property name="length">00:00:10,120</property>
+ <producer id="producer-6-converted" in="00:00:00,000" out="${6-converted}">
+  <property name="length">${6-converted}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/6-converted.png</property>
   <property name="ttl">25</property>
@@ -214,8 +214,8 @@
   <property name="kdenlive:file_hash">967e7af0caaeb8a9d24f371100825a5b</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-0-sentence" in="00:00:00,000" out="00:00:05,160">
-  <property name="length">00:00:05,200</property>
+ <producer id="producer-0-sentence" in="00:00:00,000" out="${0-audio}">
+  <property name="length">${0-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/0-sentence.png</property>
   <property name="ttl">25</property>
@@ -233,8 +233,8 @@
   <property name="kdenlive:file_hash">350c8e552a0dc1572e7163a43b2fef40</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-1-sentence" in="00:00:00,000" out="00:00:09,520">
-  <property name="length">00:00:09,520</property>
+ <producer id="producer-1-sentence" in="00:00:00,000" out="${1-audio}">
+  <property name="length">${1-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/1-sentence.png</property>
   <property name="ttl">25</property>
@@ -252,8 +252,8 @@
   <property name="kdenlive:file_hash">83341df0717c5f83f2e175235d27e74f</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-2-sentence" in="00:00:00,000" out="00:00:06,680">
-  <property name="length">00:00:06,680</property>
+ <producer id="producer-2-sentence" in="00:00:00,000" out="${2-audio}">
+  <property name="length">${2-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/2-sentence.png</property>
   <property name="ttl">25</property>
@@ -271,8 +271,8 @@
   <property name="kdenlive:file_hash">01c579cd90ef65bf16689e8d07d832e8</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-3-sentence" in="00:00:00,000" out="00:00:06,520">
-  <property name="length">00:00:06,560</property>
+ <producer id="producer-3-sentence" in="00:00:00,000" out="${3-audio}">
+  <property name="length">${3-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/3-sentence.png</property>
   <property name="ttl">25</property>
@@ -290,8 +290,8 @@
   <property name="kdenlive:file_hash">363056926b66f21d5786416e90c3ef90</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-4-sentence" in="00:00:00,000" out="00:00:09,360">
-  <property name="length">00:00:09,360</property>
+ <producer id="producer-4-sentence" in="00:00:00,000" out="${4-audio}">
+  <property name="length">${4-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/4-sentence.png</property>
   <property name="ttl">25</property>
@@ -309,8 +309,8 @@
   <property name="kdenlive:file_hash">664eca819dda379a083aa7b9651ff20f</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-5-sentence" in="00:00:00,000" out="00:00:11,040">
-  <property name="length">00:00:11,040</property>
+ <producer id="producer-5-sentence" in="00:00:00,000" out="${5-audio}">
+  <property name="length">${5-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/5-sentence.png</property>
   <property name="ttl">25</property>
@@ -328,8 +328,8 @@
   <property name="kdenlive:file_hash">beb337ae85fbed5dbfce51f91c044940</property>
   <property name="global_feed">1</property>
  </producer>
- <producer id="producer-6-sentence" in="00:00:00,000" out="00:00:09,160">
-  <property name="length">00:00:09,160</property>
+ <producer id="producer-6-sentence" in="00:00:00,000" out="${6-audio}">
+  <property name="length">${6-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/6-sentence.png</property>
   <property name="ttl">25</property>
@@ -630,19 +630,19 @@
   <entry producer="producer-soundtrack" in="00:00:00,000" out="00:02:20,720"/>
   <entry producer="producer15" in="00:00:00,000" out="00:00:05,720"/>
   <entry producer="producer0" in="00:00:00,000" out="00:00:04,960"/>
-  <entry producer="producer-0-converted" in="00:00:00,000" out="00:00:09,800"/>
-  <entry producer="producer-2-converted" in="00:00:00,000" out="00:00:06,960"/>
-  <entry producer="producer-1-converted" in="00:00:00,000" out="00:00:07,400"/>
-  <entry producer="producer-4-converted" in="00:00:00,000" out="00:00:06,960"/>
-  <entry producer="producer-3-converted" in="00:00:00,000" out="00:00:07,320"/>
-  <entry producer="producer-6-converted" in="00:00:00,000" out="00:00:06,960"/>
-  <entry producer="producer-0-sentence" in="00:00:00,000" out="00:00:05,160"/>
-  <entry producer="producer-1-sentence" in="00:00:00,000" out="00:00:06,600"/>
-  <entry producer="producer-2-sentence" in="00:00:00,000" out="00:00:05,960"/>
-  <entry producer="producer-3-sentence" in="00:00:00,000" out="00:00:06,520"/>
-  <entry producer="producer-4-sentence" in="00:00:00,000" out="00:00:05,640"/>
-  <entry producer="producer-5-sentence" in="00:00:00,000" out="00:00:05,720"/>
-  <entry producer="producer-6-sentence" in="00:00:00,000" out="00:00:05,720"/>
+  <entry producer="producer-0-converted" in="00:00:00,000" out="${0-converted}"/>
+  <entry producer="producer-2-converted" in="00:00:00,000" out="${2-converted}"/>
+  <entry producer="producer-1-converted" in="00:00:00,000" out="${1-converted}"/>
+  <entry producer="producer-4-converted" in="00:00:00,000" out="${4-converted}"/>
+  <entry producer="producer-3-converted" in="00:00:00,000" out="${3-converted}"/>
+  <entry producer="producer-6-converted" in="00:00:00,000" out="${6-converted}"/>
+  <entry producer="producer-0-sentence" in="00:00:00,000" out="${0-audio}"/>
+  <entry producer="producer-1-sentence" in="00:00:00,000" out="${1-audio}"/>
+  <entry producer="producer-2-sentence" in="00:00:00,000" out="${2-audio}"/>
+  <entry producer="producer-3-sentence" in="00:00:00,000" out="${3-audio}"/>
+  <entry producer="producer-4-sentence" in="00:00:00,000" out="${4-audio}"/>
+  <entry producer="producer-5-sentence" in="00:00:00,000" out="${5-audio}"/>
+  <entry producer="producer-6-sentence" in="00:00:00,000" out="${6-audio}"/>
   <entry producer="producer-0-audio" in="00:00:00,000" out="${0-audio}"/>
   <entry producer="producer-1-audio" in="00:00:00,000" out="${1-audio}"/>
   <entry producer="producer-2-audio" in="00:00:00,000" out="${2-audio}"/>
@@ -650,7 +650,7 @@
   <entry producer="producer-4-audio" in="00:00:00,000" out="${4-audio}"/>
   <entry producer="producer-5-audio" in="00:00:00,000" out="${5-audio}"/>
   <entry producer="producer-6-audio" in="00:00:00,000" out="${6-audio}"/>
-  <entry producer="producer-5-converted" in="00:00:00,000" out="00:00:04,960"/>
+  <entry producer="producer-5-converted" in="00:00:00,000" out="${5-converted}"/>
   <entry producer="producer-soundtrack-2" in="00:00:00,000" out="00:02:20,720"/>
  </playlist>
  <producer id="black_track" in="00:00:00,000" out="00:22:20,760">
@@ -936,7 +936,7 @@
   <property name="set.test_audio">0</property>
   <property name="set.test_image">1</property>
  </producer>
- <producer title="Anonymous Submission" id="producer-4-audio-2" in="00:00:00,000" out="${04-audio}">
+ <producer title="Anonymous Submission" id="producer-4-audio-2" in="00:00:00,000" out="${4-audio}">
   <property name="length">${4-audio}</property>
   <property name="eof">pause</property>
   <property name="resource">/home/rodrigo/Documents/video-robot/video-robot/content/4-audio-sentence.wav</property>
@@ -1022,7 +1022,7 @@
  </producer>
  <playlist autoclose="1" id="playlist4">
   <property name="kdenlive:audio_track">1</property>
-  <blank length="00:00:04"/>
+  <blank length="00:00:04,000"/>
   <entry producer="producer-0-audio-2" in="00:00:00,000" out="${0-audio}">
    <property name="kdenlive:id">20</property>
   </entry>
@@ -1114,14 +1114,6 @@
   <entry producer="producer-4-converted" in="00:00:00,000" out="${4-converted}">
    <property name="kdenlive:id">13</property>
    <property name="kdenlive:activeeffect">0</property>
-   <filter id="filter15" out="00:00:00,520">
-    <property name="start">0</property>
-    <property name="mlt_service">brightness</property>
-    <property name="kdenlive_id">fade_from_black</property>
-    <property name="end">1</property>
-    <property name="alpha">-1</property>
-    <property name="kdenlive:collapsed">0</property>
-   </filter>
   </entry>
   <blank length="${5-gap}"/>
   <entry producer="producer-6-converted" in="00:00:00,000" out="${6-converted}">
@@ -1193,7 +1185,7 @@
   <track hide="audio" producer="playlist9"/>
  </tractor>
  <playlist autoclose="1" id="playlist10">
-  <blank length="00:00:04"/>
+  <blank length="00:00:04,000"/>
   <entry producer="producer15" in="00:00:00,000" out="${0-audio}">
    <property name="kdenlive:id">4</property>
    <filter id="filter19">
@@ -1406,7 +1398,7 @@
   <track hide="audio" producer="playlist11"/>
  </tractor>
  <playlist autoclose="1" id="playlist12">
-  <blank length="00:00:04"/>
+  <blank length="00:00:04,000"/>
   <entry producer="producer-0-sentence" in="00:00:00,000" out="${0-audio}">
    <property name="kdenlive:id">11</property>
    <filter id="filter39">
@@ -1427,7 +1419,7 @@
     <property name="alpha">-1</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter41" in="\$\{fade-0-in}" out="\$\{fade-0-out}">
+   <filter id="filter41" in="${fade-0-in}" out="${fade-0-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1456,7 +1448,7 @@
     <property name="alpha">-1</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter44" in="\$\{fade-1-in}" out="\$\{fade-1-out}">
+   <filter id="filter44" in="${fade-1-in}" out="${fade-1-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1478,7 +1470,7 @@
     <property name="producer.resource">0x00000000</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter46" in="\$\{fade-2-in}" out="\$\{fade-2-out}">
+   <filter id="filter46" in="${fade-2-in}" out="${fade-2-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1516,7 +1508,7 @@
     <property name="alpha">-1</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter50" in="\$\{fade-3-in}" out="\$\{fade-3-out}">
+   <filter id="filter50" in="${fade-3-in}" out="${fade-3-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1546,7 +1538,7 @@
     <property name="alpha">-1</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter53" in="\$\{fade-4-in}" out="\$\{fade-4-out}">
+   <filter id="filter53" in="${fade-4-in}" out="${fade-4-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1568,7 +1560,7 @@
     <property name="producer.resource">0x00000000</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter55" in="\$\{fade-5-in}" out="\$\{fade-5-out}">
+   <filter id="filter55" in="${fade-5-in}" out="${fade-5-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>
@@ -1606,7 +1598,7 @@
     <property name="alpha">-1</property>
     <property name="kdenlive:collapsed">0</property>
    </filter>
-   <filter id="filter59" in="\$\{fade-6-in}" out="\$\{fade-6-out}">
+   <filter id="filter59" in="${fade-6-in}" out="${fade-6-out}">
     <property name="start">1</property>
     <property name="mlt_service">brightness</property>
     <property name="kdenlive_id">fade_to_black</property>

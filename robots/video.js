@@ -26,19 +26,15 @@ ffmpeg.setFfprobePath(ffprobePath);
 
 
 async function robot(){
-    // const content = state.load()
-    mltTest();
-    // console.log(secondsToHms(10.5))
-    // console.log(getSumTimeString('00:00:12,312','00:00:00,650'))
-    // console.log(getDiffTimeString('00:00:12,312','00:00:01,120'))
-
-
+    const content = state.load()
+    
     // await convertAllImages(content)
     // await createAllSentencesImages(content)
+    await generateMltScript(content);
     // await createYoutubeThumbnail();
     // await createAfterEffectsScript(content)
     
-    // await renderVideo(content.renderType, content);
+    await renderVideo(content.renderType, content);
 
     // state.save(content)
 
@@ -266,148 +262,268 @@ async function robot(){
         });
     }
 
-    async function mltTest() {
-      // const mlt = new MLT; 
-      // music = new MLT.Producer.Audio({source: './content/0-audio-sentence.wav'});
-      // mlt.push(music);
+    async function generateMltScript(content) {
 
-      const over = "00:00:01,120";
-      const trans = "00:00:00,560";
+      const transitionLengthDoubled = "00:00:01,120";
+      const transitionLength = "00:00:00,560";
 
-     
-      const audio0 = "00:00:04,200";
-      const audio1 = "00:00:08,620";
-      const audio2 = "00:00:06,775";
-      const audio3 = "00:00:03,652";
-      const audio4 = "00:00:09,399";
-      const audio5 = "00:00:10,412";
-      const audio6 = "00:00:09,199";
+      const audioLengthObject = fillAudioLengthObject(content);
 
-      // const converted0 = getSumTimeString(audio0, "00:00:05,000");
-      // const converted1 = "00:00:08,770";
-      // const converted2 = "00:00:06,925";
-      // const converted3 = "00:00:03,775";
-      // const converted4 = "00:00:09,549";
-      // const converted5 = "00:00:10,562";
-      // const converted6 = "00:00:09,349";
+      const imageLengthObject = fillImageLengthObject(audioLengthObject, transitionLength);
 
-      const converted0 = getSumTimeString(audio0, "00:00:05,000");
-      const converted1 = getSumTimeString(audio1, trans);
-      const converted2 = getSumTimeString(audio2, trans);
-      const converted3 = getSumTimeString(audio3, trans);
-      const converted4 = getSumTimeString(audio4, trans);
-      const converted5 = getSumTimeString(audio5, trans);
-      const converted6 = getSumTimeString(audio6, trans);
+      const gapObject = fillGapObject(imageLengthObject, transitionLength, transitionLengthDoubled);
       
-      const gap0 = getDiffTimeString(converted0, trans);
-      const gap1 = getDiffTimeString(converted1, over);
-      const gap2 = getDiffTimeString(converted2, over);
-      const gap3 = getDiffTimeString(converted3, over);
-      const gap4 = getDiffTimeString(converted4, over);
-      const gap5 = getDiffTimeString(converted5, over);
-      const gap6 = getDiffTimeString(converted6, over);
+      const transitionObject = fillTransitionObject(imageLengthObject, transitionLength, gapObject);
 
-      const transition0In = getDiffTimeString(converted0, trans);
-      const transition0Out = converted0;
-      const transition1In = getSumTimeString(transition0Out, gap1);
-      const transition1Out = getSumTimeString(transition1In, trans)
-      const transition2In = getSumTimeString(transition1Out, gap2);
-      const transition2Out = getSumTimeString(transition2In, trans);
-      const transition3In = getSumTimeString(transition2Out, gap3);
-      const transition3Out = getSumTimeString(transition3In, trans);
-      const transition4In = getSumTimeString(transition3Out, gap4);
-      const transition4Out = getSumTimeString(transition4In, trans);
-      const transition5In = getSumTimeString(transition4Out, gap5);
-      const transition5Out = getSumTimeString(transition5In, trans);
-      const transition6In = getSumTimeString(transition5Out, gap6);
-      const transition6Out = getSumTimeString(transition6In, gap6);
+      const filterObject = fillFilterWithAudioObject(audioLengthObject, transitionLength);
+      
+      // const filterObject = fillFilterObject(imageLengthObject, trans);
+
+      // const fadeObject = fillFadeWithAudioObject(audioLengthObject, imageLengthObject);
+      const fadeObject = fillFadeObject(imageLengthObject);
 
 
-
-      const fade0In = getTransitionIn(audio0);
-      const fade0Out = audio0;
-      const fade1In = getTransitionIn(audio1);
-      const fade1Out = audio1;
-      const fade2In = getTransitionIn(audio2);
-      const fade2Out = audio2;
-      const fade3In = getTransitionIn(audio3);
-      const fade3Out = audio3;
-      const fade4In = getTransitionIn(audio4);
-      const fade4Out = audio4;
-      const fade5In = getTransitionIn(audio5);
-      const fade5Out = audio5;
-      const fade6In = getTransitionIn(audio6);
-      const fade6Out = audio6;
-
-      fs.readFile( './templates/3/templateCorrected.mlt', 'utf-8', function(err, data) {
+      fs.readFile( './templates/3/newTry.mlt', 'utf-8', function(err, data) {
         
         // var json = parser.toJson(data);
 
-        const blank = 4;
-        const transitionLength = 0.750;
+        data = replaceGap(data, gapObject);
 
-        data = data.split('${0-gap}').join(gap0);
-        data = data.split('${1-gap}').join(gap1);
-        data = data.split('${2-gap}').join(gap2);
-        data = data.split('${3-gap}').join(gap3);
-        data = data.split('${4-gap}').join(gap4);
-        data = data.split('${5-gap}').join(gap5);
-        data = data.split('${6-gap}').join(gap6);
+        data = replaceAudioLength(data, audioLengthObject);
 
-        data = data.split('${0-audio}').join(audio0);
-        data = data.split('${1-audio}').join(audio1);
-        data = data.split('${2-audio}').join(audio2);
-        data = data.split('${3-audio}').join(audio3);
-        data = data.split('${4-audio}').join(audio4);
-        data = data.split('${5-audio}').join(audio5);
-        data = data.split('${6-audio}').join(audio6);
+        data = replaceImageLength(data, imageLengthObject);
 
-        data = data.split('${0-converted}').join(converted0);
-        data = data.split('${1-converted}').join(converted1);
-        data = data.split('${2-converted}').join(converted2);
-        data = data.split('${3-converted}').join(converted3);
-        data = data.split('${4-converted}').join(converted4);
-        data = data.split('${5-converted}').join(converted5);
-        data = data.split('${6-converted}').join(converted6);
+        data = replaceFade(data, fadeObject);
 
-        data = data.split('${fade-0-in}').join(fade0In);
-        data = data.split('${fade-0-out}').join(fade0Out);
-        data = data.split('${fade-1-in}').join(fade1In);
-        data = data.split('${fade-1-out}').join(fade1Out);
-        data = data.split('${fade-2-in}').join(fade2In);
-        data = data.split('${fade-2-out}').join(fade2Out);
-        data = data.split('${fade-3-in}').join(fade3In);
-        data = data.split('${fade-3-out}').join(fade3Out);
-        data = data.split('${fade-4-in}').join(fade4In);
-        data = data.split('${fade-4-out}').join(fade4Out);
-        data = data.split('${fade-5-in}').join(fade5In);
-        data = data.split('${fade-5-out}').join(fade5Out);
-        data = data.split('${fade-6-in}').join(fade6In);
-        data = data.split('${fade-6-out}').join(fade6Out);
+        data = replaceFilter(data, filterObject);
         
-        data = data.split('${transtion-0-in}').join(transition0In);
-        data = data.split('${transtion-0-out}').join(transition0Out);
-        data = data.split('${transtion-1-in}').join(transition1In);
-        data = data.split('${transtion-1-out}').join(transition1Out);
-        data = data.split('${transtion-2-in}').join(transition2In);
-        data = data.split('${transtion-2-out}').join(transition2Out);
-        data = data.split('${transtion-3-in}').join(transition3In);
-        data = data.split('${transtion-3-out}').join(transition3Out);
-        data = data.split('${transtion-4-in}').join(transition4In);
-        data = data.split('${transtion-4-out}').join(transition4Out);
-        data = data.split('${transtion-5-in}').join(transition5In);
-        data = data.split('${transtion-5-out}').join(transition5Out);
-        data = data.split('${transtion-6-in}').join(transition6In);
-        data = data.split('${transtion-6-out}').join(transition6Out);
+        data = replaceTransitions(data, transitionObject);
 
 
-        fs.writeFileSync('./templates/3/novo.mlt', data)
+        fs.writeFileSync('./templates/3/final2.mlt', data)
 
-        // var obj = JSON.parse(json)
-        // console.log("to json ->", json);
       });
 
+
     }
+
+  function fillAudioLengthObject(content) {
+    audioLengthObject = {};
+    audioLengthObject.audio0 = getTimeString(content.audioInfoList[0].duration * 1000 + ''); // time is in millis, times 1000 to convert to seconds.
+    audioLengthObject.audio1 = getTimeString(content.audioInfoList[1].duration * 1000 + '');
+    audioLengthObject.audio2 = getTimeString(content.audioInfoList[2].duration * 1000 + '');
+    audioLengthObject.audio3 = getTimeString(content.audioInfoList[3].duration * 1000 + '');
+    audioLengthObject.audio4 = getTimeString(content.audioInfoList[4].duration * 1000 + '');
+    audioLengthObject.audio5 = getTimeString(content.audioInfoList[5].duration * 1000 + '');
+    audioLengthObject.audio6 = getTimeString(content.audioInfoList[6].duration * 1000 + '');
+    return audioLengthObject;
+  }
+
+  function fillImageLengthObject(audioLengthObject, half) {
+    imageLengthObject = {};
+    imageLengthObject.converted0 = getSumTimeString(audioLengthObject.audio0, "00:00:04,000"); // adding 4 seconds before starting the audio
+    imageLengthObject.converted1 = getSumTimeString(audioLengthObject.audio1, half);
+    imageLengthObject.converted2 = getSumTimeString(audioLengthObject.audio2, half);
+    imageLengthObject.converted3 = getSumTimeString(audioLengthObject.audio3, half);
+    imageLengthObject.converted4 = getSumTimeString(audioLengthObject.audio4, half);
+    imageLengthObject.converted5 = audioLengthObject.audio5
+    imageLengthObject.converted6 = getSumTimeString(audioLengthObject.audio6, half);
+    return imageLengthObject;
+  }
+
+  function fillGapObject(imageLengthObject, half, full) {
+    gapObject = {};
+    gapObject.gap0 = getDiffTimeString(imageLengthObject.converted0, half);
+    gapObject.gap1 = getDiffTimeString(imageLengthObject.converted1, full);
+    gapObject.gap2 = getDiffTimeString(imageLengthObject.converted2, full);
+    gapObject.gap3 = getDiffTimeString(imageLengthObject.converted3, half);
+    gapObject.gap4 = getDiffTimeString(imageLengthObject.converted4, half);
+    gapObject.gap5 = getDiffTimeString(imageLengthObject.converted5, half);
+    gapObject.gap6 = getDiffTimeString(imageLengthObject.converted6, full);
+    return gapObject;
+  }
+
+  function fillTransitionObject(imageLengthObject, half, gapObject) {
+    transitionObject = {}
+    transitionObject.transition0In = getDiffTimeString(imageLengthObject.converted0, half);
+    transitionObject.transition0Out = imageLengthObject.converted0;
+    transitionObject.transition1In = getSumTimeString(transitionObject.transition0Out, gapObject.gap1);
+    transitionObject.transition1Out = getSumTimeString(transitionObject.transition1In, half);
+    transitionObject.transition2In = getSumTimeString(transitionObject.transition1Out, gapObject.gap2);
+    transitionObject.transition2Out = getSumTimeString(transitionObject.transition2In, half);
+    transitionObject.transition3In = getSumTimeString(transitionObject.transition2Out, gapObject.gap3);
+    transitionObject.transition3Out = getSumTimeString(transitionObject.transition3In, half);
+    transitionObject.transition4In = getSumTimeString(transitionObject.transition3Out, gapObject.gap4);
+    transitionObject.transition4Out = getSumTimeString(transitionObject.transition4In, half);
+    transitionObject.transition5In = getSumTimeString(transitionObject.transition4Out, gapObject.gap5);
+    transitionObject.transition5Out = getSumTimeString(transitionObject.transition5In, half);
+    transitionObject.transition6In = getSumTimeString(transitionObject.transition5Out, gapObject.gap6);
+    transitionObject.transition6Out = getSumTimeString(transitionObject.transition6In, half);
+    return transitionObject;
+  }
+
+  function fillFilterObject(imageLengthObject, trans) {
+    let filterObject = {}
+    filterObject.transition0In = getDiffTimeString(imageLengthObject.converted0, trans);
+    filterObject.transition0Out = imageLengthObject.converted0;
+    filterObject.transition1In = getDiffTimeString(imageLengthObject.converted1, trans);
+    filterObject.transition1Out = imageLengthObject.converted1
+    filterObject.transition2In = getDiffTimeString(imageLengthObject.converted2, trans);
+    filterObject.transition2Out = imageLengthObject.converted2
+    filterObject.transition3In = getDiffTimeString(imageLengthObject.converted3, trans);
+    filterObject.transition3Out = imageLengthObject.converted3
+    filterObject.transition4In = getDiffTimeString(imageLengthObject.converted4, trans);
+    filterObject.transition4Out = imageLengthObject.converted4
+    filterObject.transition5In = getDiffTimeString(imageLengthObject.converted5, trans);
+    filterObject.transition5Out = imageLengthObject.converted5
+    filterObject.transition6In = getDiffTimeString(imageLengthObject.converted6, trans);
+    filterObject.transition6Out = imageLengthObject.converted6
+    return filterObject;
+  }
+
+  function fillFilterWithAudioObject(audioLengthObject, half) {
+    let filterObject = {}
+    filterObject.transition0In = getDiffTimeString(audioLengthObject.audio0, half);
+    filterObject.transition0Out = audioLengthObject.audio0;
+    filterObject.transition1In = getDiffTimeString(audioLengthObject.audio1, half);
+    filterObject.transition1Out = audioLengthObject.audio1
+    filterObject.transition2In = getDiffTimeString(audioLengthObject.audio2, half);
+    filterObject.transition2Out = audioLengthObject.audio2
+    filterObject.transition3In = getDiffTimeString(audioLengthObject.audio3, half);
+    filterObject.transition3Out = audioLengthObject.audio3
+    filterObject.transition4In = getDiffTimeString(audioLengthObject.audio4, half);
+    filterObject.transition4Out = audioLengthObject.audio4
+    filterObject.transition5In = getDiffTimeString(audioLengthObject.audio5, half);
+    filterObject.transition5Out = audioLengthObject.audio5
+    filterObject.transition6In = getDiffTimeString(audioLengthObject.audio6, half);
+    filterObject.transition6Out = audioLengthObject.audio6
+    return filterObject;
+  }
+
+  function fillFadeObject(imageLengthObject) {
+    fadeObject = {};
+    fadeObject.fade0In = getTransitionIn(imageLengthObject.converted0);
+    fadeObject.fade0Out = imageLengthObject.converted0;
+    fadeObject.fade1In = getTransitionIn(imageLengthObject.converted1);
+    fadeObject.fade1Out = imageLengthObject.converted1
+    fadeObject.fade2In = getTransitionIn(imageLengthObject.converted2);
+    fadeObject.fade2Out = imageLengthObject.converted2
+    fadeObject.fade3In = getTransitionIn(imageLengthObject.converted3);
+    fadeObject.fade3Out = imageLengthObject.converted3;
+    fadeObject.fade4In = getTransitionIn(imageLengthObject.converted4);
+    fadeObject.fade4Out = imageLengthObject.converted4
+    fadeObject.fade5In = getTransitionIn(imageLengthObject.converted5);
+    fadeObject.fade5Out = imageLengthObject.converted5;
+    fadeObject.fade6In = getTransitionIn(imageLengthObject.converted6);
+    fadeObject.fade6Out = imageLengthObject.converted6;
+    return fadeObject;
+  }
+
+  function fillFadeWithAudioObject(audioLengthObject, imageLengthObject) {
+    fadeObject = {};
+    fadeObject.fade0In = getTransitionIn(imageLengthObject.converted0);
+    fadeObject.fade0Out = imageLengthObject.converted0;
+    fadeObject.fade1In = getTransitionIn(audioLengthObject.audio1);
+    fadeObject.fade1Out = audioLengthObject.audio1
+    fadeObject.fade2In = getTransitionIn(audioLengthObject.audio2);
+    fadeObject.fade2Out = audioLengthObject.audio2
+    fadeObject.fade3In = getTransitionIn(audioLengthObject.audio3);
+    fadeObject.fade3Out = audioLengthObject.audio3;
+    fadeObject.fade4In = getTransitionIn(audioLengthObject.audio4);
+    fadeObject.fade4Out = audioLengthObject.audio4
+    fadeObject.fade5In = getTransitionIn(audioLengthObject.audio5);
+    fadeObject.fade5Out = audioLengthObject.audio5;
+    fadeObject.fade6In = getTransitionIn(audioLengthObject.audio6);
+    fadeObject.fade6Out = audioLengthObject.audio6;
+    return fadeObject;
+  }
+
+  function replaceTransitions(data, transitionObject) {
+    data = data.split('${transtion-0-in}').join(transitionObject.transition0In);
+    data = data.split('${transtion-0-out}').join(transitionObject.transition0Out);
+    data = data.split('${transtion-1-in}').join(transitionObject.transition1In);
+    data = data.split('${transtion-1-out}').join(transitionObject.transition1Out);
+    data = data.split('${transtion-2-in}').join(transitionObject.transition2In);
+    data = data.split('${transtion-2-out}').join(transitionObject.transition2Out);
+    data = data.split('${transtion-3-in}').join(transitionObject.transition3In);
+    data = data.split('${transtion-3-out}').join(transitionObject.transition3Out);
+    data = data.split('${transtion-4-in}').join(transitionObject.transition4In);
+    data = data.split('${transtion-4-out}').join(transitionObject.transition4Out);
+    data = data.split('${transtion-5-in}').join(transitionObject.transition5In);
+    data = data.split('${transtion-5-out}').join(transitionObject.transition5Out);
+    data = data.split('${transtion-6-in}').join(transitionObject.transition6In);
+    data = data.split('${transtion-6-out}').join(transitionObject.transition6Out);
+    return data;
+  }
+
+  function replaceFilter(data, filterObject) {
+    data = data.split('${filter-0-in}').join(filterObject.transition0In);
+    data = data.split('${filter-0-out}').join(filterObject.transition0Out);
+    data = data.split('${filter-1-in}').join(filterObject.transition1In);
+    data = data.split('${filter-1-out}').join(filterObject.transition1Out);
+    data = data.split('${filter-2-in}').join(filterObject.transition2In);
+    data = data.split('${filter-2-out}').join(filterObject.transition2Out);
+    data = data.split('${filter-3-in}').join(filterObject.transition3In);
+    data = data.split('${filter-3-out}').join(filterObject.transition3Out);
+    data = data.split('${filter-4-in}').join(filterObject.transition4In);
+    data = data.split('${filter-4-out}').join(filterObject.transition4Out);
+    data = data.split('${filter-5-in}').join(filterObject.transition5In);
+    data = data.split('${filter-5-out}').join(filterObject.transition5Out);
+    data = data.split('${filter-6-in}').join(filterObject.transition6In);
+    data = data.split('${filter-6-out}').join(filterObject.transition6Out);
+    return data;
+  }
+
+  function replaceFade(data, fadeObject) {
+    data = data.split('${fade-0-in}').join(fadeObject.fade0In);
+    data = data.split('${fade-0-out}').join(fadeObject.fade0Out);
+    data = data.split('${fade-1-in}').join(fadeObject.fade1In);
+    data = data.split('${fade-1-out}').join(fadeObject.fade1Out);
+    data = data.split('${fade-2-in}').join(fadeObject.fade2In);
+    data = data.split('${fade-2-out}').join(fadeObject.fade2Out);
+    data = data.split('${fade-3-in}').join(fadeObject.fade3In);
+    data = data.split('${fade-3-out}').join(fadeObject.fade3Out);
+    data = data.split('${fade-4-in}').join(fadeObject.fade4In);
+    data = data.split('${fade-4-out}').join(fadeObject.fade4Out);
+    data = data.split('${fade-5-in}').join(fadeObject.fade5In);
+    data = data.split('${fade-5-out}').join(fadeObject.fade5Out);
+    data = data.split('${fade-6-in}').join(fadeObject.fade6In);
+    data = data.split('${fade-6-out}').join(fadeObject.fade6Out);
+    return data;
+  }
+
+  function replaceImageLength(data, imageLengthObject) {
+    data = data.split('${0-converted}').join(imageLengthObject.converted0);
+    data = data.split('${1-converted}').join(imageLengthObject.converted1);
+    data = data.split('${2-converted}').join(imageLengthObject.converted2);
+    data = data.split('${3-converted}').join(imageLengthObject.converted3);
+    data = data.split('${4-converted}').join(imageLengthObject.converted4);
+    data = data.split('${5-converted}').join(imageLengthObject.converted5);
+    data = data.split('${6-converted}').join(imageLengthObject.converted6);
+    return data;
+  }
+
+  function replaceAudioLength(data, audioLengthObject) {
+    data = data.split('${0-audio}').join(audioLengthObject.audio0);
+    data = data.split('${1-audio}').join(audioLengthObject.audio1);
+    data = data.split('${2-audio}').join(audioLengthObject.audio2);
+    data = data.split('${3-audio}').join(audioLengthObject.audio3);
+    data = data.split('${4-audio}').join(audioLengthObject.audio4);
+    data = data.split('${5-audio}').join(audioLengthObject.audio5);
+    data = data.split('${6-audio}').join(audioLengthObject.audio6);
+    return data;
+  }
+
+  function replaceGap(data, gapObject) {
+    data = data.split('${0-gap}').join(gapObject.gap0);
+    data = data.split('${1-gap}').join(gapObject.gap1);
+    data = data.split('${2-gap}').join(gapObject.gap2);
+    data = data.split('${3-gap}').join(gapObject.gap3);
+    data = data.split('${4-gap}').join(gapObject.gap4);
+    data = data.split('${5-gap}').join(gapObject.gap5);
+    data = data.split('${6-gap}').join(gapObject.gap6);
+    return data;
+  }
 
     async function renderVideoWithKdenlive() {
       const mlt = new MLT; 
@@ -417,7 +533,7 @@ async function robot(){
       return new Promise((resolve, reject) => {
         const systemPlatform=os.platform
         
-        const templateFilePath = fromRoot('./templates/2/template.mlt')
+        const templateFilePath = fromRoot('./templates/3/final2.mlt')
 
         if (systemPlatform=='linux'){
           console.log('> [video-robot] Rendering kdenlive')
@@ -473,6 +589,15 @@ async function robot(){
       sum = sum.replace(',','.')
       
       const result = moment.duration(init).asSeconds() + moment.duration(sum).asSeconds()
+
+      return secondsToHms(result)
+    }
+
+    function getTimeString(init){
+
+      init = init.replace(',','.')
+      
+      const result = moment.duration(init).asSeconds()
 
       return secondsToHms(result)
     }
