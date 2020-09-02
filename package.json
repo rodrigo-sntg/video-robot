@@ -25,7 +25,7 @@
     "ffprobe-static": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.23.1",
-    "googleapis": "^38.0.0",
+    "googleapis": "^39.1.0",
     "ibm-watson": "^5.5.0",
     "image-downloader": "^3.5.0",
     "jimp": "^0.10.3",
