@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/rodrigo-sntg/video-robot)
 
-This is a video maker robot, made create based on [Felipe Deschamps](https://www.youtube.com/watch?v=kjhu1LEmRpY&list=PLMdYygf53DP4YTVeu0JxVnWq01uXrLwHi&index=1) youtube series.
+This is a video maker robot
 
 # Features And Knowledge
 A list of things I've learned developing this project:
